@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="ui-g">
+
+    <div class="ui-g-12">
+      <h1>Livros</h1>
+    </div>
+
+    <div class="ui-g-12 ui-fluid">
+      <label>Descrição</label>
+      <input pInputText type="text">
+    </div>
+
+      <div class="ui-g-6 ui-fluid">
+        <label style="display: block;">Titulo</label>
+        <input pInputText type="text">
+     </div>
+
+     <div class="ui-g-6 ui-fluid">
+      <label style="display: block;">Autor</label>
+      <input pInputText type="text">
+     </div>
+
+     <div class="ui-g-4 ui-fluid">
+      <label style="display: block;">Páginas</label>
+      <input pInputText type="number">
+     </div>
+
+
+     <div class="ui-g-4 ui-fluid">
+      <label style="display: block;">ISBN</label>
+      <input pInputText type="number">
+     </div>
+
+
+     <div class="ui-g-4 ui-fluid">
+      <label style="display: block;">Preço</label>
+      <input pInputText type="number">
+     </div>
+
+    <div class="ui-g-12">
+      <button pButton type="submit" label="Pesquisar"></button>
+    </div>
+  </div>
+
+  <app-livros-grid [lancamentos]="lancamentos"></app-livros-grid>
+
+    <div class="ui-g-12">
+      <a pButton label="Novo Livro"></a>
+    </div>
+
+</div>
+

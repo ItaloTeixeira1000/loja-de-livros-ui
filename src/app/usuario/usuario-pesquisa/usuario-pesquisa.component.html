@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <h1>Usuários</h1>
+    </div>
+
+    <div class="ui-g-5 ui-fluid">
+      <label style="display: block;">Nome</label>
+      <input pInputText type="text">
+
+    </div>
+
+    <div class="ui-g-5 ui-fluid">
+      <label style="display: block;">Email</label>
+      <input pInputText type="email">
+    </div>
+
+    <div class="ui-g-12">
+      <button pButton type="submit" label="Pesquisar"></button>
+    </div>
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <app-usuario-grid [usuarios]="usuarios"></app-usuario-grid>
+
+    </div>
+    <div class="ui-g-12">
+      <a pButton label="Novo Usuário"></a>
+    </div>
+  </div>
+</div>

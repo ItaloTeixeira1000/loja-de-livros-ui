@@ -1,0 +1,20 @@
+<p-table [value]="usuarios" [paginator]="true" [rows]="5"
+        [responsive]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="text-align: center;">Código</th>
+            <th style="text-align: center;">Nome</th>
+            <th style="text-align: center;">Email</th>
+            <th class="col-acoes"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-usuario>
+          <td style="text-align: center;">{{usuario.codigo}}</td>
+          <td style="text-align: center;">{{usuario.nome}}</td>
+          <td style="text-align: center;">{{usuario.email}}</td>
+          <td style="text-align: center;">
+            <a pButton style="height: 20px;" pTooltip="Editar" tooltipPosition="top"><i class="pi pi-pencil"></i></a>
+            <a pButton style="height: 20px;" pTooltip="Excluir" tooltipPosition="top"><i class="pi pi-trash"></i></a>
+          </td>
+        </ng-template>
+      </p-table>

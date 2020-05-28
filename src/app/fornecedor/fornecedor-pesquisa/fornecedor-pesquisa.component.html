@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="ui-g">
+
+    <div class="ui-g-12">
+      <h1>Fornecedor</h1>
+    </div>
+
+    <div class="ui-g-6">
+      <label style="display: block;">Nome Fantasma</label>
+      <input pInputText size="50" type="text">
+    </div>
+
+    <div class="ui-g-6">
+      <label style="display: block;">Razão Social</label>
+      <input pInputText type="text" size="50">
+    </div>
+
+    <div class="ui-g-4">
+      <label style="display: block;">CNPJ</label>
+      <input pInputText type="text">
+    </div>
+
+    <div class="ui-g-4">
+      <label style="display: block;">Inscrição Estadual</label>
+      <input pInputText type="text">
+    </div>
+
+    <div class="ui-g-4">
+      <label style="display: block;">Status</label>
+      <p-dropdown [options]="ativo" [(ngModel)]="selectedAtivo"></p-dropdown>
+
+    </div>
+
+    <div class="ui-g-12">
+      <button pButton type="submit" label="Pesquisar"></button>
+    </div>
+
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <app-fornecedor-grid [fornecedores]="fornecedores"></app-fornecedor-grid>
+    </div>
+
+    <div class="ui-g-12">
+      <a pButton label="Novo Fornecedor"></a>
+    </div>
+
+  </div>
+{{selectedAtivo}}
+</div>

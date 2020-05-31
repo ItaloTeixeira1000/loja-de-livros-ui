@@ -8,6 +8,8 @@ import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { LivroService } from './livro/livro.service';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
 
     FornecedorModule,
     LivroModule,
@@ -23,7 +26,7 @@ import { AppComponent } from './app.component';
     CoreModule
 
   ],
-  providers: [],
+  providers: [LivroService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

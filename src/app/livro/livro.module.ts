@@ -13,7 +13,6 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { LivrosGridComponent } from './livros-grid/livros-grid.component';
 import { LivroCadastroComponent } from './livro-cadastro/livro-cadastro.component';
 import { LivrosPesquisaComponent } from './livros-pesquisa/livros-pesquisa.component';
 
@@ -22,7 +21,6 @@ import { SharedModule } from './../shared/shared.module';
 @NgModule({
   declarations: [
     LivroCadastroComponent,
-    LivrosGridComponent,
     LivrosPesquisaComponent
   ],
   imports: [

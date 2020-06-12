@@ -10,12 +10,9 @@ import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { FornecedorPesquisaComponent } from './fornecedor-pesquisa/fornecedor-pesquisa.component';
-import { FornecedorGridComponent } from './fornecedor-grid/fornecedor-grid.component';
-
 
 @NgModule({
   declarations: [
-    FornecedorGridComponent,
     FornecedorPesquisaComponent
   ],
   imports: [

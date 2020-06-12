@@ -2,50 +2,81 @@
   <div class="ui-g">
 
     <form autocomplete="off" (ngSubmit)="pesquisar()">
-      <div class="ui-g-12">
-        <h1>Livros</h1>
-      </div>
+        <div class="ui-g-12">
+          <h1>Livros</h1>
+        </div>
 
-      <div class="ui-g-12 ui-fluid">
-        <label>Descrição</label>
-        <input pInputText type="text">
-      </div>
+        <div class="ui-g-12 ui-fluid">
+          <label>Descrição</label>
+          <input pInputText type="text" name="descricao" [(ngModel)]="filtro.descricao">
+        </div>
+
+          <div class="ui-g-6 ui-fluid">
+            <label style="display: block;">Titulo</label>
+            <input pInputText type="text" name="titulo"
+              [(ngModel)]="filtro.titulo">
+        </div>
 
         <div class="ui-g-6 ui-fluid">
-          <label style="display: block;">Titulo</label>
-          <input pInputText type="text" name="titulo"
-            [(ngModel)]="titulo">
-      </div>
+          <label style="display: block;">Autor</label>
+          <input pInputText type="text" name="autor" [(ngModel)]="filtro.autor">
+        </div>
 
-      <div class="ui-g-6 ui-fluid">
-        <label style="display: block;">Autor</label>
-        <input pInputText type="text">
-      </div>
+        <div class="ui-g-6 ui-fluid">
+          <label style="display: block;">Data de Publicação</label>
+          <p-calendar dateFormat="dd/mm/yy" name="dataPub"
+            [(ngModel)]="filtro.dataPub"></p-calendar>
+        </div>
 
-      <div class="ui-g-4 ui-fluid">
-        <label style="display: block;">Páginas</label>
-        <input pInputText type="number">
-      </div>
+        <div class="ui-g-6 ui-fluid">
+          <label style="display: block;">Preço</label>
+          <input pInputText type="text" name="preco" currencyMask placeholder="0,00"
+            [options]="{prefix: '', thousands:'.', decimal: ',', allowNegative: false }"
+            [(ngModel)]="filtro.preco">
+        </div>
 
-
-      <div class="ui-g-4 ui-fluid">
-        <label style="display: block;">ISBN</label>
-        <input pInputText type="number">
-      </div>
-
-
-      <div class="ui-g-4 ui-fluid">
-        <label style="display: block;">Preço</label>
-        <input pInputText type="number">
-      </div>
-
-      <div class="ui-g-12">
-        <button pButton type="submit" label="Pesquisar"></button>
-      </div>
-  </form>
+        <div class="ui-g-12">
+          <button pButton type="submit" label="Pesquisar"></button>
+        </div>
+    </form>
   </div>
 
-  <app-livros-grid [lancamentos]="lancamentos"></app-livros-grid>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-table [value]="lancamentos" [paginator]="true" [rows]="filtro.itensPorPagina"
+          [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)"
+          [responsive]="true" emptyMessage="Nenhum livro encontrado" #tabela>
+        <ng-template pTemplate="header">
+          <tr>
+              <th>Título</th>
+              <th>Autor</th>
+              <th class="col-data">Descrição</th>
+              <th class="col-data">Preço</th>
+              <th [ngStyle]="{width: '120px'}">Data de Publicação</th>
+              <th class="col-acoes"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-lancamento>
+          <tr>
+              <td>{{lancamento.titulo}}</td>
+              <td>{{lancamento.autor}}</td>
+              <td>{{lancamento.descricao}}</td>
+              <td class="col-valor">{{lancamento.preco | number:'1.2-2'}}</td>
+              <td>{{lancamento.dataPublicacao | date:'dd/MM/y'}}</td>
+
+              <td>
+                <a pButton style="height: 20px;" pTooltip="Editar" tooltipPosition="top"><i class="pi pi-pencil"></i></a>
+                <a pButton style="height: 20px;" pTooltip="Excluir" tooltipPosition="top" (click)="excluir(lancamento)">
+                  <i class="pi pi-trash"></i>
+                </a>
+              </td>
+          </tr>
+      </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+
 
     <div class="ui-g-12">
       <a pButton label="Novo Livro"></a>

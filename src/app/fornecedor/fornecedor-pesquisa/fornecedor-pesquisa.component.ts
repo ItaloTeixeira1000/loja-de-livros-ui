@@ -1,22 +1,23 @@
+import { FornecedorService, FornecedorFiltro } from './../fornecedor.service';
 import { Component, OnInit } from '@angular/core';
 import {SelectItem} from 'primeng/api';
+import { LazyLoadEvent } from 'primeng/api/public_api';
 
 @Component({
   selector: 'app-fornecedor-pesquisa',
   templateUrl: './fornecedor-pesquisa.component.html',
   styleUrls: ['./fornecedor-pesquisa.component.css']
 })
-export class FornecedorPesquisaComponent {
+export class FornecedorPesquisaComponent implements OnInit {
 
   ativo: SelectItem[];
   selectedAtivo: any;
 
-  fornecedores = [
-    {nome: 'MV', razao: 'Software', cnpj: '12343', inscricao: '0000', status: true},
-    {nome: 'Fluxus', razao: 'Software', cnpj: '12343', inscricao: '0000', status: false}
-  ];
+  totalRegistros = 0;
+  filtro = new FornecedorFiltro();
+  fornecedores = [];
 
-  constructor() {
+  constructor(private fornecedorService: FornecedorService) {
     this.ativo = [
       {label: 'Selecione o status', value: 0},
       {label: 'Inativo', value: 1},
@@ -24,7 +25,25 @@ export class FornecedorPesquisaComponent {
     ];
   }
 
+  ngOnInit() {
 
+  }
 
+  pesquisar(pagina = 0) {
+
+    this.filtro.pagina = pagina;
+
+    this.fornecedorService.pesquisar(this.filtro)
+      .then((resultado) => {
+        this.totalRegistros = resultado.total;
+        this.fornecedores = resultado.fornecedores;
+      });
+  }
+
+  aoMudarPagina(event: LazyLoadEvent) {
+    const pagina = event.first / event.rows;
+    this.pesquisar(pagina);
+    console.log(event);
+  }
 
   }

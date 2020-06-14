@@ -6,6 +6,7 @@ export class FornecedorFiltro {
   razaoSocial: string;
   cnpj: string;
   inscricaoEstadual: string;
+  ativo: string;
   pagina = 0;
   itensPorPagina = 2;
 }
@@ -41,13 +42,18 @@ export class FornecedorService {
       params = params.set('inscricaoEstadual', filtro.inscricaoEstadual);
     }
 
+    console.log(filtro.ativo);
+    if (filtro.ativo) {
+      params = params.set('ativo', filtro.ativo);
+    }
+
     return this.http.get(`${this.fornecedorUrl}`,
       {headers, params})
       .toPromise()
       .then(response => {
         const responseJson = JSON.parse(JSON.stringify(response));
         const fornecedores = responseJson.content;
-
+        console.log(fornecedores);
         const resultado = {
           fornecedores,
           total: responseJson.totalElements

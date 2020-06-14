@@ -11,7 +11,6 @@ import { LazyLoadEvent } from 'primeng/api/public_api';
 export class FornecedorPesquisaComponent implements OnInit {
 
   ativo: SelectItem[];
-  selectedAtivo: any;
 
   totalRegistros = 0;
   filtro = new FornecedorFiltro();
@@ -19,9 +18,9 @@ export class FornecedorPesquisaComponent implements OnInit {
 
   constructor(private fornecedorService: FornecedorService) {
     this.ativo = [
-      {label: 'Selecione o status', value: 0},
-      {label: 'Inativo', value: 1},
-      {label: 'Ativo', value: 2}
+      {label: 'Selecione o status', value: ''},
+      {label: 'Inativo', value: '0'},
+      {label: 'Ativo', value: '1'}
     ];
   }
 

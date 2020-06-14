@@ -1,8 +1,12 @@
-import { LivroFiltro } from './../livro.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LivroService } from '../livro.service';
+
 import { LazyLoadEvent } from 'primeng/api/public_api';
+import { ConfirmationService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
+
+import { LivroService } from '../livro.service';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { LivroFiltro } from './../livro.service';
 
 @Component({
   selector: 'app-livros-pesquisa',
@@ -18,7 +22,9 @@ export class LivrosPesquisaComponent implements OnInit{
 
   constructor(
     private livroService: LivroService,
-    private toastr: ToastrService
+    private errorHandler: ErrorHandlerService,
+    private toastr: ToastrService,
+    private confirmation: ConfirmationService
 
     ){}
 
@@ -33,7 +39,8 @@ export class LivrosPesquisaComponent implements OnInit{
       .then((resultado) => {
         this.totalRegistros = resultado.total;
         this.lancamentos = resultado.livros;
-      });
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
@@ -41,14 +48,26 @@ export class LivrosPesquisaComponent implements OnInit{
     this.pesquisar(pagina);
   }
 
+  confirmarExlusao(livro: any) {
+    this.confirmation.confirm({
+      message: 'Tem certeza que deseja excluir?',
+      accept: () => {
+        this.excluir(livro);
+      }
+    });
+
+  }
+
   excluir(livro: any) {
+
     this.livroService.excluir(livro.codigo)
       .then(() => {
         this.grid.first = 0;
         this.pesquisar();
         this.toastr.success('Livro excluído com sucesso!');
 
-      });
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
 }

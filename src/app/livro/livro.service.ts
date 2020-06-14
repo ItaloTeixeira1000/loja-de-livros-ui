@@ -35,7 +35,7 @@ export class LivroService {
     }
 
     if (filtro.dataPub) {
-      params = params.set('dataPub',
+      params = params.set('dataPublicacao',
         moment(filtro.dataPub).format('YYYY-MM-DD'));
     }
 

@@ -4,9 +4,14 @@
   <app-livro-cadastro></app-livro-cadastro>
   <app-usuario-pesquisa></app-usuario-pesquisa>
   <app-usuario-cadastro></app-usuario-cadastro>
-  <app-fornecedor-pesquisa></app-fornecedor-pesquisa>
+  <app-livros-pesquisa></app-livros-pesquisa>
 -->
 
-<app-livros-pesquisa></app-livros-pesquisa>
+<app-fornecedor-pesquisa></app-fornecedor-pesquisa>
 
-
+<p-confirmDialog #confirmacao header="Confirmação" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" label="Sim" (click)="confirmacao.accept()"></button>
+    <button type="button" pButton icon="pi pi-times" label="Não" (click)="confirmacao.reject()"></button>
+  </p-footer>
+</p-confirmDialog>

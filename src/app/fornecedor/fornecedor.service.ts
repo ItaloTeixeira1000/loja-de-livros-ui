@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Fornecedor } from '../core/model';
+
 export class FornecedorFiltro {
   nomeFantasma: string;
   razaoSocial: string;
@@ -12,15 +14,17 @@ export class FornecedorFiltro {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FornecedorService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   fornecedorUrl = 'http://localhost:8080/fornecedores';
   pesquisar(filtro: FornecedorFiltro): Promise<any> {
-    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    const headers = new HttpHeaders().append(
+      'Authorization',
+      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
+    );
     let params = new HttpParams();
 
     params = params.set('page', filtro.pagina.toString());
@@ -47,18 +51,63 @@ export class FornecedorService {
       params = params.set('ativo', filtro.ativo);
     }
 
-    return this.http.get(`${this.fornecedorUrl}`,
-      {headers, params})
+    return this.http
+      .get(`${this.fornecedorUrl}`, { headers, params })
       .toPromise()
-      .then(response => {
+      .then((response) => {
         const responseJson = JSON.parse(JSON.stringify(response));
         const fornecedores = responseJson.content;
         console.log(fornecedores);
         const resultado = {
           fornecedores,
-          total: responseJson.totalElements
+          total: responseJson.totalElements,
         };
         return resultado;
       });
+  }
+
+  excluir(codigo: any): Promise<void> {
+    const headers = new HttpHeaders().append(
+      'Authorization',
+      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
+    );
+
+    return this.http
+      .delete(`${this.fornecedorUrl}/${codigo}`, { headers })
+      .toPromise()
+      .then(() => null);
+  }
+
+  mudarStatus(codigo: number, status: boolean): Promise<void> {
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+      .append('Content-Type', 'application/json');
+    return this.http
+      .put(`${this.fornecedorUrl}/${codigo}/ativo`, status, { headers })
+      .toPromise()
+      .then(() => null);
+  }
+
+  listarTodosFornecedores(): Promise<any> {
+    const headers = new HttpHeaders().append(
+      'Authorization',
+      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
+    );
+
+    return this.http
+      .get(`${this.fornecedorUrl}`, { headers })
+      .toPromise()
+      .then((response) => response);
+  }
+
+  adicionar(fornecedor: Fornecedor): Promise<Fornecedor> {
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+      .append('Content-Type', 'application/json');
+
+    return this.http
+      .post(this.fornecedorUrl, JSON.stringify(fornecedor), { headers })
+      .toPromise()
+      .then((response) => JSON.parse(JSON.stringify(response)));
   }
 }

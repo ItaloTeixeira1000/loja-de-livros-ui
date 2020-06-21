@@ -1,0 +1,164 @@
+<div class="container">
+  <form autocomplete="off" #formFornecedor="ngForm" (ngSubmit)="salvar(formFornecedor)">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>Novo Fornecedor</h1>
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Nome Fantasma</label>
+        <input
+          pInputText
+          required
+          minlength="1"
+          type="text"
+          name="nomeFantasma"
+          [(ngModel)]="fornecedor.nomeFantasma"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Razão Social</label>
+        <input
+          pInputText
+          required
+          minlength="3"
+          type="text"
+          name="razaoSocial"
+          [(ngModel)]="fornecedor.razaoSocial"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>CNPJ</label>
+        <input
+          pInputText
+          required
+          type="text"
+          name="cnpj"
+          [(ngModel)]="fornecedor.cnpj"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Inscrição Estadual</label>
+        <input
+          pInputText
+          required
+          type="number"
+          name="inscricaoEstadual"
+          [(ngModel)]="fornecedor.inscricaoEstadual"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Telefone</label>
+        <input
+          pInputText
+          type="text"
+          name="telefone"
+          [(ngModel)]="fornecedor.telefone"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Status</label>
+        <p-dropdown
+          [options]="ativo"
+          name="ativo"
+          [(ngModel)]="fornecedor.ativo"
+        ></p-dropdown>
+      </div>
+
+      <div class="ui-g-12">
+        <h3>Endereço</h3>
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Cidade</label>
+        <input
+          pInputText
+          type="text"
+          name="cidade"
+          [(ngModel)]="fornecedor.enderecoFornecedor.cidade"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Logradouro</label>
+        <input
+          pInputText
+          type="text"
+          name="logradouro"
+          [(ngModel)]="fornecedor.enderecoFornecedor.logradouro"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Número</label>
+        <input
+          pInputText
+          type="text"
+          name="numero"
+          [(ngModel)]="fornecedor.enderecoFornecedor.numero"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Complemento</label>
+        <input
+          pInputText
+          type="text"
+          name="complemento"
+          [(ngModel)]="fornecedor.enderecoFornecedor.complemento"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>CEP</label>
+        <input
+          pInputText
+          type="text"
+          name="cep"
+          [(ngModel)]="fornecedor.enderecoFornecedor.cep"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-fluid">
+        <label>Estado</label>
+        <input
+          pInputText
+          type="text"
+          name="estado"
+          [(ngModel)]="fornecedor.enderecoFornecedor.estado"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-12 ui-fluid">
+        <label>Bairro</label>
+        <input
+          pInputText
+          type="text"
+          name="bairro"
+          [(ngModel)]="fornecedor.enderecoFornecedor.bairro"
+        />
+      </div>
+
+      <div class="ui-g-12">
+        <button
+          pButton
+          [disabled]="!formFornecedor.valid"
+          type="submit"
+          label="Salvar"
+        ></button>
+        <button
+          pButton
+          type="button"
+          label="Novo"
+          class="ui-button-info"
+        ></button>
+        <a href="javascript:;">Voltar para a pesquisa</a>
+      </div>
+    </div>
+  </form>
+</div>

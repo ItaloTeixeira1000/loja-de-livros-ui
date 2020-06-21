@@ -1,76 +1,163 @@
 <div class="container">
-  <form autocomplete="off" #formLivro="ngForm" >
+  <form autocomplete="off" #formLivro="ngForm" (ngSubmit)="salvar(formLivro)">
     <div class="ui-g">
       <div class="ui-g-12">
         <h1>Novo Livro</h1>
       </div>
 
-      <div class="ui-g-12">
-        <p-selectButton [options]="tipos" #tipo></p-selectButton>
-      </div>
-
-      <div class="ui-g-6 ui-md-3 ui-fluid">
-        <label>Vencimento</label>
-        <p-calendar dateFormat="dd/mm/yy" name="vencimento" [showIcon]="true" #vencimento="ngModel"
-          required ngModel></p-calendar>
-
-        <div>
-          <app-message [control]="vencimento" error="required"
-          text="Informe o vencimento"></app-message>
-        </div>
-      </div>
-
-      <div class="ui-g-6 ui-md-3 ui-fluid">
-        <label>{{tipo.value === 'RECEITA' ? 'Recebimento' : 'Pagamento'}}</label>
-        <p-calendar dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
-      </div>
-
-      <div class="ui-g-12 ui-md-9 ui-fluid">
-        <label>Descrição</label>
-        <input pInputText type="text" name="descricao"
-           ngModel #descricao="ngModel" required minlength="5">
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Título</label>
+        <input
+          pInputText
+          type="text"
+          name="titulo"
+          [(ngModel)]="livro.titulo"
+          #titulo="ngModel"
+          required
+          minlength="2"
+        />
 
         <div>
+          <app-message
+            [control]="titulo"
+            error="required"
+            text="Informe um título"
+          ></app-message>
 
-          <app-message [control]="descricao" error="required"
-            text="Informe uma descrição"></app-message>
-
-          <app-message [control]="descricao" error="minlength"
-            text="Mínimo de {{descricao.errors?.minlength?.requiredLength}} caracteres"></app-message>
-
+          <app-message
+            [control]="titulo"
+            error="minlength"
+            text="Mínimo de {{
+              titulo.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-message>
         </div>
       </div>
 
       <div class="ui-g-12 ui-md-3 ui-fluid">
-        <label>Valor</label>
-        <input pInputText currencyMask type="text" name="valor" placeholder="0,00"
-          [options]="{prefix: '', thousands:'.', decimal: ',', allowNegative: false }"
-          ngModel required>
+        <label>Data de Publicação</label>
+        <p-calendar
+          dateFormat="dd/mm/yy"
+          name="vencimento"
+          [showIcon]="true"
+          #vencimento="ngModel"
+          [(ngModel)]="livro.dataPublicacao"
+        ></p-calendar>
+      </div>
+
+      <div class="ui-g-12 ui-md-3 ui-fluid">
+        <label>Preço</label>
+        <input
+          pInputText
+          currencyMask
+          type="text"
+          name="valor"
+          #valor="ngModel"
+          placeholder="0,00"
+          [options]="{
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: false
+          }"
+          [(ngModel)]="livro.preco"
+          required
+        />
+
+        <div>
+          <app-message
+            [control]="valor"
+            error="required"
+            text="Informe um valor"
+          ></app-message>
+        </div>
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
-        <label>Categoria</label>
-        <p-dropdown [options]="categorias" name="categoria" required
-          placeholder="Selecione" [filter]="true" #categoria="ngModel" ngModel></p-dropdown>
+        <label>Número de páginas</label>
+        <input
+          pInputText
+          type="number"
+          name="paginas"
+          [(ngModel)]="livro.paginas"
+        />
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
-        <label>Pessoa {{pessoa.value}}</label>
-        <p-dropdown [options]="pessoas" name="pessoa" required
-          placeholder="Selecione" [filter]="true" #pessoa="ngModel" ngModel></p-dropdown>
+        <label>ISBN</label>
+        <input
+          pInputText
+          type="number"
+          #isbn="ngModel"
+          required
+          name="isbn"
+          [(ngModel)]="livro.isbn"
+        />
+
+        <div>
+          <app-message
+            [control]="isbn"
+            error="required"
+            text="Informe um ISBN"
+          ></app-message>
+        </div>
       </div>
 
-      <div class="ui-g-12 ui-fluid">
-        <label>Observação</label>
-        <textarea pInputTextarea rows="3"> </textarea>
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Fornecedor</label>
+        <p-dropdown
+          [options]="fornecedores"
+          name="fornecedor"
+          required
+          placeholder="Selecione um fornecedor"
+          [filter]="true"
+          #fornecedor="ngModel"
+          [(ngModel)]="livro.fornecedor.codigo"
+        ></p-dropdown>
+      </div>
+      <app-message
+        [control]="fornecedor"
+        error="required"
+        text="Informe um fornecedor"
+      ></app-message>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Autor</label>
+        <input
+          pInputText
+          type="text"
+          name="autor"
+          [(ngModel)]="livro.autor"
+          #autor="ngModel"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-12 ui-fluid">
+        <label>Descrição</label>
+        <input
+          pInputText
+          type="text"
+          name="descricao"
+          [(ngModel)]="livro.descricao"
+          #descricao="ngModel"
+        />
       </div>
 
       <div class="ui-g-12">
-        <button pButton [disabled]="!formLivro.valid" type="submit" label="Salvar"></button>
-        <button pButton type="button" label="Novo" class="ui-button-info"></button>
+        <button
+          pButton
+          [disabled]="!formLivro.valid"
+          type="submit"
+          label="Salvar"
+        ></button>
+        <button
+          pButton
+          type="button"
+          label="Novo"
+          class="ui-button-info"
+        ></button>
         <a href="javascript:;">Voltar para a pesquisa</a>
       </div>
-
     </div>
   </form>
 </div>

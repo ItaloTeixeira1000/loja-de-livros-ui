@@ -10,10 +10,12 @@ import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { FornecedorPesquisaComponent } from './fornecedor-pesquisa/fornecedor-pesquisa.component';
+import { FornecedorCadastroComponent } from './fornecedor-cadastro/fornecedor-cadastro.component';
 
 @NgModule({
   declarations: [
-    FornecedorPesquisaComponent
+    FornecedorPesquisaComponent,
+    FornecedorCadastroComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { FornecedorPesquisaComponent } from './fornecedor-pesquisa/fornecedor-pe
     MessageModule,
   ],
   exports: [
-    FornecedorPesquisaComponent
+    FornecedorPesquisaComponent,
+    FornecedorCadastroComponent
   ]
 })
 export class FornecedorModule { }

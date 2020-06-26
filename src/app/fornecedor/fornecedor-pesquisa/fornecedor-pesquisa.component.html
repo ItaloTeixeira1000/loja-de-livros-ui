@@ -111,6 +111,7 @@
                 style="height: 20px;"
                 pTooltip="Editar"
                 tooltipPosition="top"
+                [routerLink]="['/fornecedores', fornecedor.codigo]"
                 ><i class="pi pi-pencil"></i
               ></a>
               <a
@@ -129,7 +130,7 @@
     </div>
 
     <div class="ui-g-12">
-      <a pButton label="Novo Fornecedor"></a>
+      <a pButton label="Novo Fornecedor" routerLinkActive routerLink="/fornecedores/novo"></a>
     </div>
   </div>
 </div>

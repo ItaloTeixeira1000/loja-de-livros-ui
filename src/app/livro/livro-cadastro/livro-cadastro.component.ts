@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -21,22 +23,69 @@ export class LivroCadastroComponent implements OnInit {
     private fornecedorService: FornecedorService,
     private livroService: LivroService,
     private toasty: ToastrService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
+    const codigoLivro = this.route.snapshot.params['codigo'];
+
+    this.title.setTitle('Novo livro');
+
+    if (codigoLivro) {
+      this.carregarLivro(codigoLivro);
+    }
+
     this.carregarFornecedor();
   }
 
+  get editando() {
+    return Boolean(this.livro.codigo);
+  }
+
+  carregarLivro(codigo: number) {
+    this.livroService
+      .buscarPorCodigo(codigo)
+      .then((livro) => {
+        this.livro = livro;
+        this.atualizarTitiloEdicao();
+      })
+      .catch((erro) => this.errorHandler.handle(erro));
+  }
+
   salvar(form: NgForm) {
-    this.livroService.adicionar(this.livro)
-      .then(() => {
+    if (this.editando) {
+      this.atualizarLivro(form);
+    } else {
+      this.adicionarLivro(form);
+    }
+  }
+
+  adicionarLivro(form: NgForm) {
+    this.livroService
+      .adicionar(this.livro)
+      .then((livroAdicionado) => {
         this.toasty.success('Livro adicionado com sucesso');
 
-        form.reset();
-        this.livro = new Livro();
+        // form.reset();
+        // this.livro = new Livro();
+        this.router.navigate(['/livros', livroAdicionado.codigo]);
       })
-      .catch(erro => this.errorHandler.handle(erro));
+      .catch((erro) => this.errorHandler.handle(erro));
+  }
+
+  atualizarLivro(form: NgForm) {
+    this.livroService
+      .atualizar(this.livro)
+      .then((livro) => {
+        this.livro = livro;
+
+        this.toasty.success('Livro alterado com sucesso!');
+        this.atualizarTitiloEdicao();
+      })
+      .catch((erro) => this.errorHandler.handle(erro));
   }
 
   carregarFornecedor() {
@@ -51,5 +100,19 @@ export class LivroCadastroComponent implements OnInit {
       .catch((erro) => {
         this.errorHandler.handle(erro);
       });
+  }
+
+  novo(form: NgForm) {
+    form.reset();
+
+    setTimeout(function() {
+      this.livro = new Livro();
+    }.bind(this), 1);
+
+    this.router.navigate(['/livros/novo']);
+  }
+
+  atualizarTitiloEdicao() {
+    this.title.setTitle(`Edição de livro: ${this.livro.titulo}`);
   }
 }

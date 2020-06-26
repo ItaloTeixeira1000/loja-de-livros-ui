@@ -15,8 +15,8 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { LivroCadastroComponent } from './livro-cadastro/livro-cadastro.component';
 import { LivrosPesquisaComponent } from './livros-pesquisa/livros-pesquisa.component';
-
 import { SharedModule } from './../shared/shared.module';
+import { LivroRoutingModule } from './livro-routing.module';
 
 @NgModule({
   declarations: [
@@ -38,11 +38,9 @@ import { SharedModule } from './../shared/shared.module';
     InputMaskModule,
     CurrencyMaskModule,
 
-    SharedModule
+    SharedModule,
+    LivroRoutingModule
   ],
-  exports: [
-    LivroCadastroComponent,
-    LivrosPesquisaComponent
-  ]
+  exports: []
 })
 export class LivroModule { }

@@ -93,4 +93,49 @@ export class LivroService {
       .toPromise()
       .then((response) => JSON.parse(JSON.stringify(response)));
   }
+
+  atualizar(livro: Livro): Promise<Livro> {
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+      .append('Content-Type', 'application/json');
+
+    return this.http
+      .put(`${this.livrosUrl}/${livro.codigo}`, JSON.stringify(livro), {
+        headers,
+      })
+      .toPromise()
+      .then(response => {
+        const livroAlterado = JSON.parse(JSON.stringify(response)) as Livro;
+
+        this.converterStringParaDatas([livroAlterado]);
+
+        return livroAlterado;
+      });
+  }
+
+  buscarPorCodigo(codigo: number): Promise<Livro> {
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    return this.http
+      .get(`${this.livrosUrl}/${codigo}`, { headers })
+      .toPromise()
+      .then((response) => {
+        const livro = JSON.parse(JSON.stringify(response)) as Livro;
+
+        this.converterStringParaDatas([livro]);
+        return livro;
+      });
+  }
+
+  private converterStringParaDatas(livros: Livro[]) {
+    for (const livro of livros) {
+      if (livro.dataPublicacao) {
+        livro.dataPublicacao = moment(
+          livro.dataPublicacao,
+          'YYYY-MM-DD'
+        ).toDate();
+      }
+    }
+  }
 }

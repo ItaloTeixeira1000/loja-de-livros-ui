@@ -71,7 +71,6 @@ export class FornecedorPesquisaComponent implements OnInit {
   aoMudarPagina(event: LazyLoadEvent) {
     const pagina = event.first / event.rows;
     this.pesquisar(pagina);
-    console.log(event);
   }
 
   mudarStatus(codigo: number, status: boolean) {
@@ -85,7 +84,6 @@ export class FornecedorPesquisaComponent implements OnInit {
         } else {
           this.toastr.success('Fornecedor desativado com sucesso!');
         }
-
       })
       .catch((error) => this.errorHandler.handle(error));
   }

@@ -57,7 +57,7 @@ export class FornecedorService {
       .then((response) => {
         const responseJson = JSON.parse(JSON.stringify(response));
         const fornecedores = responseJson.content;
-        console.log(fornecedores);
+
         const resultado = {
           fornecedores,
           total: responseJson.totalElements,
@@ -109,5 +109,28 @@ export class FornecedorService {
       .post(this.fornecedorUrl, JSON.stringify(fornecedor), { headers })
       .toPromise()
       .then((response) => JSON.parse(JSON.stringify(response)));
+  }
+
+  atualizar(fornecedor: Fornecedor): Promise<Fornecedor> {
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+      .append('Content-Type', 'application/json');
+
+    return this.http.put(
+      `${this.fornecedorUrl}/${fornecedor.codigo}`,
+      JSON.stringify(fornecedor),
+      { headers }
+    )
+    .toPromise()
+    .then(response => JSON.parse(JSON.stringify(response)) as Fornecedor);
+  }
+
+  buscarPorCodigo(codigo: number): Promise<Fornecedor> {
+    const headers = new HttpHeaders()
+    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    return this.http.get(`${this.fornecedorUrl}/${codigo}`, { headers })
+      .toPromise()
+      .then(response => JSON.parse(JSON.stringify(response)) as Fornecedor);
   }
 }

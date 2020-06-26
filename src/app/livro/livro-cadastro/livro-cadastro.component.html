@@ -2,7 +2,7 @@
   <form autocomplete="off" #formLivro="ngForm" (ngSubmit)="salvar(formLivro)">
     <div class="ui-g">
       <div class="ui-g-12">
-        <h1>Novo Livro</h1>
+        <h1>{{ editando ? 'Edição de' : 'Novo' }} Livro</h1>
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
@@ -155,8 +155,9 @@
           type="button"
           label="Novo"
           class="ui-button-info"
+          (click)="novo(formLivro)"
         ></button>
-        <a href="javascript:;">Voltar para a pesquisa</a>
+        <a routerLinkActive routerLink="/livros">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>

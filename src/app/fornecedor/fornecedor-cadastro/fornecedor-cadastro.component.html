@@ -2,7 +2,7 @@
   <form autocomplete="off" #formFornecedor="ngForm" (ngSubmit)="salvar(formFornecedor)">
     <div class="ui-g">
       <div class="ui-g-12">
-        <h1>Novo Fornecedor</h1>
+        <h1>{{ editando ? 'Edição de' : 'Novo'  }} Fornecedor</h1>
       </div>
 
       <div class="ui-g-12 ui-md-4 ui-fluid">
@@ -156,8 +156,9 @@
           type="button"
           label="Novo"
           class="ui-button-info"
+          (click)="novo(formFornecedor)"
         ></button>
-        <a href="javascript:;">Voltar para a pesquisa</a>
+        <a routerLinkActive routerLink="/fornecedores">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>

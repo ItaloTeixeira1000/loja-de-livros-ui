@@ -21,10 +21,6 @@ export class FornecedorService {
 
   fornecedorUrl = 'http://localhost:8080/fornecedores';
   pesquisar(filtro: FornecedorFiltro): Promise<any> {
-    const headers = new HttpHeaders().append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
     let params = new HttpParams();
 
     params = params.set('page', filtro.pagina.toString());
@@ -52,7 +48,7 @@ export class FornecedorService {
     }
 
     return this.http
-      .get(`${this.fornecedorUrl}`, { headers, params })
+      .get(`${this.fornecedorUrl}`, { params })
       .toPromise()
       .then((response) => {
         const responseJson = JSON.parse(JSON.stringify(response));
@@ -67,70 +63,47 @@ export class FornecedorService {
   }
 
   excluir(codigo: any): Promise<void> {
-    const headers = new HttpHeaders().append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
-
     return this.http
-      .delete(`${this.fornecedorUrl}/${codigo}`, { headers })
+      .delete(`${this.fornecedorUrl}/${codigo}`)
       .toPromise()
       .then(() => null);
   }
 
   mudarStatus(codigo: number, status: boolean): Promise<void> {
-    const headers = new HttpHeaders()
-      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-      .append('Content-Type', 'application/json');
     return this.http
-      .put(`${this.fornecedorUrl}/${codigo}/ativo`, status, { headers })
+      .put(`${this.fornecedorUrl}/${codigo}/ativo`, status)
       .toPromise()
       .then(() => null);
   }
 
   listarTodosFornecedores(): Promise<any> {
-    const headers = new HttpHeaders().append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
-
     return this.http
-      .get(`${this.fornecedorUrl}`, { headers })
+      .get(`${this.fornecedorUrl}`)
       .toPromise()
       .then((response) => response);
   }
 
   adicionar(fornecedor: Fornecedor): Promise<Fornecedor> {
-    const headers = new HttpHeaders()
-      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-      .append('Content-Type', 'application/json');
-
     return this.http
-      .post(this.fornecedorUrl, JSON.stringify(fornecedor), { headers })
+      .post(this.fornecedorUrl, JSON.stringify(fornecedor))
       .toPromise()
       .then((response) => JSON.parse(JSON.stringify(response)));
   }
 
   atualizar(fornecedor: Fornecedor): Promise<Fornecedor> {
-    const headers = new HttpHeaders()
-      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-      .append('Content-Type', 'application/json');
-
-    return this.http.put(
-      `${this.fornecedorUrl}/${fornecedor.codigo}`,
-      JSON.stringify(fornecedor),
-      { headers }
-    )
-    .toPromise()
-    .then(response => JSON.parse(JSON.stringify(response)) as Fornecedor);
+    return this.http
+      .put(
+        `${this.fornecedorUrl}/${fornecedor.codigo}`,
+        JSON.stringify(fornecedor)
+      )
+      .toPromise()
+      .then((response) => JSON.parse(JSON.stringify(response)) as Fornecedor);
   }
 
   buscarPorCodigo(codigo: number): Promise<Fornecedor> {
-    const headers = new HttpHeaders()
-    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
-    return this.http.get(`${this.fornecedorUrl}/${codigo}`, { headers })
+    return this.http
+      .get(`${this.fornecedorUrl}/${codigo}`)
       .toPromise()
-      .then(response => JSON.parse(JSON.stringify(response)) as Fornecedor);
+      .then((response) => JSON.parse(JSON.stringify(response)) as Fornecedor);
   }
 }

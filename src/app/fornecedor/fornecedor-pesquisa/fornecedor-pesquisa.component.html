@@ -89,7 +89,7 @@
                 *ngIf="fornecedor.ativo; else inativo"
                 (click)="mudarStatus(fornecedor.codigo, fornecedor.ativo)"
                 pTooltip="Desativar"
-                href="#"
+
                 tooltipPosition="top"
               >
                 {{ fornecedor.ativo ? "Ativo" : "Inativo" }}
@@ -97,7 +97,7 @@
               <ng-template #inativo>
                 <a
                   pTooltip="Ativar"
-                  href="#"
+
                   tooltipPosition="top"
                   (click)="mudarStatus(fornecedor.codigo, fornecedor.ativo)"
                 >

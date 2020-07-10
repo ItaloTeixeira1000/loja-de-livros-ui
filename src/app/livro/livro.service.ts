@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import * as moment from 'moment';
 
 import { Livro } from '../core/model';
+import { AuthService } from '../seguranca/auth.service';
 
 export class LivroFiltro {
   titulo: string;
@@ -19,16 +20,12 @@ export class LivroFiltro {
   providedIn: 'root',
 })
 export class LivroService {
-  constructor(private http: HttpClient) {}
+  constructor(public http: HttpClient, private auth: AuthService) {}
 
   livrosUrl = 'http://localhost:8080/livros';
 
   pesquisar(filtro: LivroFiltro): Promise<any> {
     let params = new HttpParams();
-    const headers = new HttpHeaders().append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
 
     params = params.set('page', filtro.pagina.toString());
     params = params.set('size', filtro.itensPorPagina.toString());
@@ -57,7 +54,7 @@ export class LivroService {
     }
 
     return this.http
-      .get(`${this.livrosUrl}`, { headers, params })
+      .get(`${this.livrosUrl}`, { params })
       .toPromise()
       .then((response) => {
         const responseJson = JSON.parse(JSON.stringify(response));
@@ -72,39 +69,24 @@ export class LivroService {
   }
 
   excluir(codigo: number): Promise<void> {
-    const headers = new HttpHeaders().append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
-
     return this.http
-      .delete(`${this.livrosUrl}/${codigo}`, { headers })
+      .delete(`${this.livrosUrl}/${codigo}`)
       .toPromise()
       .then(() => null);
   }
 
   adicionar(livro: Livro): Promise<Livro> {
-    const headers = new HttpHeaders()
-      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-      .append('Content-Type', 'application/json');
-
     return this.http
-      .post(this.livrosUrl, JSON.stringify(livro), { headers })
+      .post(this.livrosUrl, JSON.stringify(livro))
       .toPromise()
       .then((response) => JSON.parse(JSON.stringify(response)));
   }
 
   atualizar(livro: Livro): Promise<Livro> {
-    const headers = new HttpHeaders()
-      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-      .append('Content-Type', 'application/json');
-
     return this.http
-      .put(`${this.livrosUrl}/${livro.codigo}`, JSON.stringify(livro), {
-        headers,
-      })
+      .put(`${this.livrosUrl}/${livro.codigo}`, JSON.stringify(livro))
       .toPromise()
-      .then(response => {
+      .then((response) => {
         const livroAlterado = JSON.parse(JSON.stringify(response)) as Livro;
 
         this.converterStringParaDatas([livroAlterado]);
@@ -114,11 +96,8 @@ export class LivroService {
   }
 
   buscarPorCodigo(codigo: number): Promise<Livro> {
-    const headers = new HttpHeaders()
-      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
     return this.http
-      .get(`${this.livrosUrl}/${codigo}`, { headers })
+      .get(`${this.livrosUrl}/${codigo}`)
       .toPromise()
       .then((response) => {
         const livro = JSON.parse(JSON.stringify(response)) as Livro;
@@ -136,6 +115,12 @@ export class LivroService {
           'YYYY-MM-DD'
         ).toDate();
       }
+    }
+  }
+
+  atualizarToken() {
+    if (this.auth.isAccessTokenInvalido()) {
+      this.auth.obterNovoAccessToken();
     }
   }
 }

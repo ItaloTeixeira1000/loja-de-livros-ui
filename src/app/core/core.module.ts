@@ -6,12 +6,14 @@ import { Title } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LivroService } from '../livro/livro.service';
 import { FornecedorService } from '../fornecedor/fornecedor.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
+import { AuthService } from '../seguranca/auth.service';
 
 @NgModule({
   declarations: [
@@ -33,8 +35,10 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
     LivroService,
     FornecedorService,
     ErrorHandlerService,
+    AuthService,
 
     ConfirmationService,
+    JwtHelperService,
     Title,
     { provide: LOCALE_ID, useValue: 'pt-BR'},
   ]

@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LivroService } from '../livro.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { LivroFiltro } from './../livro.service';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
   selector: 'app-livros-pesquisa',
@@ -22,6 +23,7 @@ export class LivrosPesquisaComponent implements OnInit {
 
   constructor(
     private livroService: LivroService,
+    public auth: AuthService,
     private errorHandler: ErrorHandlerService,
     private toastr: ToastrService,
     private confirmation: ConfirmationService,

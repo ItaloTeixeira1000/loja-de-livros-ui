@@ -5,6 +5,7 @@ import * as moment from 'moment';
 
 import { Livro } from '../core/model';
 import { AuthService } from '../seguranca/auth.service';
+import { environment } from 'src/environments/environment';
 
 export class LivroFiltro {
   titulo: string;
@@ -20,9 +21,13 @@ export class LivroFiltro {
   providedIn: 'root',
 })
 export class LivroService {
-  constructor(public http: HttpClient, private auth: AuthService) {}
 
-  livrosUrl = 'http://localhost:8080/livros';
+  livrosUrl: string;
+
+  constructor(public http: HttpClient, private auth: AuthService) {
+    this.livrosUrl = `${environment.apiUrl}/livros`;
+  }
+
 
   pesquisar(filtro: LivroFiltro): Promise<any> {
     let params = new HttpParams();

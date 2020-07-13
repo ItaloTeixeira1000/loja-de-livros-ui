@@ -1,15 +1,13 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
-import { LivrosPesquisaComponent } from './livro/livros-pesquisa/livros-pesquisa.component';
-import { LivroCadastroComponent } from './livro/livro-cadastro/livro-cadastro.component';
-import { FornecedorPesquisaComponent } from './fornecedor/fornecedor-pesquisa/fornecedor-pesquisa.component';
-import { FornecedorCadastroComponent } from './fornecedor/fornecedor-cadastro/fornecedor-cadastro.component';
 import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada.component';
+import { NaoAutorizadoComponent } from './core/nao-autorizado/nao-autorizado.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'livros', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
+  { path: 'nao-autorizado', component: NaoAutorizadoComponent },
   { path: '**', redirectTo: 'pagina-nao-encontrada' }
 ];
 

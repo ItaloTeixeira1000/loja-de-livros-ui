@@ -17,6 +17,9 @@ export class ErrorHandlerService {
       } else if (errorJson.status >= 400 && errorJson.status < 500) {
         msg = 'Ocorreu um erro ao processar sua solicitação';
 
+        if (errorJson.status === 403) {
+          msg = 'Você não tem permissão para executar esta ação';
+        }
         try {
           msg = errorJson.error[0].mensagemUsuario;
         } catch (e) {}

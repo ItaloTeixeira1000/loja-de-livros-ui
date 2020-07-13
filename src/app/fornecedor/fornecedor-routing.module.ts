@@ -6,16 +6,28 @@ import { FornecedorCadastroComponent } from './fornecedor-cadastro/fornecedor-ca
 import { AuthGuard } from '../seguranca/auth.guard';
 
 const routes: Routes = [
-  { path: 'fornecedores', component: FornecedorPesquisaComponent, canActivate: [AuthGuard] },
-  { path: 'fornecedores/novo', component: FornecedorCadastroComponent, canActivate: [AuthGuard] },
-  { path: 'fornecedores/:codigo', component: FornecedorCadastroComponent, canActivate: [AuthGuard] },
-
+  {
+    path: 'fornecedores',
+    component: FornecedorPesquisaComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_PESQUISAR_FORNECEDOR'] }
+  },
+  {
+    path: 'fornecedores/novo',
+    component: FornecedorCadastroComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_CADASTRAR_FORNECEDOR'] }
+  },
+  {
+    path: 'fornecedores/:codigo',
+    component: FornecedorCadastroComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_CADASTRAR_FORNECEDOR'] }
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class FornecedorRoutingModule { }
+export class FornecedorRoutingModule {}

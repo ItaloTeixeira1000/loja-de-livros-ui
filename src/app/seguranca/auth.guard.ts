@@ -6,6 +6,7 @@ import {
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -18,9 +19,6 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-
-    console.log(this.auth.isAccessTokenInvalido());
-
     if (this.auth.isAccessTokenInvalido()) {
       console.log('Navegação com access token inválido. Obtendo novo token...');
 
@@ -31,6 +29,12 @@ export class AuthGuard implements CanActivate {
         }
         return true;
       });
+    } else if (
+      next.data.roles &&
+      !this.auth.temQualquerPermissao(next.data.roles)
+    ) {
+      this.rota.navigate(['/nao-autorizado']);
+      return false;
     }
 
     return true;

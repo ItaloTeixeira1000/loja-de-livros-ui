@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Fornecedor } from '../core/model';
+import { environment } from 'src/environments/environment';
 
 export class FornecedorFiltro {
   nomeFantasma: string;
@@ -17,9 +18,13 @@ export class FornecedorFiltro {
   providedIn: 'root',
 })
 export class FornecedorService {
-  constructor(private http: HttpClient) {}
 
-  fornecedorUrl = 'http://localhost:8080/fornecedores';
+  fornecedorUrl: string;
+
+  constructor(private http: HttpClient) {
+    this.fornecedorUrl = `${environment.apiUrl}/fornecedores`;
+  }
+
   pesquisar(filtro: FornecedorFiltro): Promise<any> {
     let params = new HttpParams();
 

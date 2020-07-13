@@ -10,13 +10,20 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
+
+import { ToastrService } from 'ngx-toastr';
+
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   dupReq: HttpRequest<any>;
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private toasty: ToastrService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -36,8 +43,11 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     let dupReq = req.clone({
-      headers: req.headers.set('Authorization', `${token}`),
+      headers: req.headers
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `${token}`),
     });
+
     return next.handle(dupReq).pipe(
       catchError((error) => {
         if (this.auth.isAccessTokenInvalido()) {
@@ -47,9 +57,19 @@ export class AuthInterceptor implements HttpInterceptor {
               token = 'Bearer ' + localStorage.getItem('token');
 
               dupReq = dupReq.clone({
-                headers: req.headers.set('Authorization', `${token}`),
+                headers: req.headers
+                  .set('Authorization', `${token}`)
+                  .set('Content-Type', 'application/json'),
               });
-              return next.handle(dupReq);
+              return next.handle(dupReq).pipe(
+                catchError((error) => {
+                  if (this.auth.isAccessTokenInvalido()) {
+                    this.toasty.error('Sua sessão expirou!');
+                    this.router.navigate(['/login']);
+                  }
+                  return throwError(error);
+                })
+              );
             })
           );
         } else {

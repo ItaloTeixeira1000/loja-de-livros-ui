@@ -95,23 +95,24 @@
             <td>{{ lancamento.dataPublicacao | date: "dd/MM/y" }}</td>
 
             <td>
-              <a
+              <button
                 pButton
                 style="height: 20px;"
                 pTooltip="Editar"
                 tooltipPosition="top"
                 [routerLink]="['/livros', lancamento.codigo ]"
                 ><i class="pi pi-pencil"></i
-              ></a>
-              <a
+              ></button>
+              <button
                 pButton
                 style="height: 20px;"
                 pTooltip="Excluir"
                 tooltipPosition="top"
                 (click)="confirmarExlusao(lancamento)"
+                [disabled]="!auth.temPermissao('ROLE_REMOVER_LIVRO')"
               >
                 <i class="pi pi-trash"></i>
-              </a>
+              </button>
             </td>
           </tr>
         </ng-template>

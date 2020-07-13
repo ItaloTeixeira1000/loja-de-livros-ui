@@ -2,16 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+import { environment } from './../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  oauthTokenUrl = 'http://localhost:8080/oauth/token';
+  oauthTokenUrl: string;
+  tokensRevokeUrl: string;
   jwtPayload: any;
 
   auth = new JwtHelperService();
 
   constructor(private http: HttpClient) {
+    this.oauthTokenUrl = `${environment.apiUrl}/oauth/token`;
+    this.tokensRevokeUrl = `${environment.apiUrl}/tokens/revoke`;
     this.carregarToken();
   }
 
@@ -60,8 +65,22 @@ export class AuthService {
       })
       .catch((response) => {
         console.log('Erro ao renovar token ', response);
-        // return Promise.resolve(null);
+        return Promise.resolve(null);
       });
+  }
+
+  logout() {
+    return this.http
+      .delete(this.tokensRevokeUrl, { withCredentials: true })
+      .toPromise()
+      .then(() => {
+        this.limparAccessToken();
+      });
+  }
+
+  limparAccessToken() {
+    localStorage.removeItem('token');
+    this.jwtPayload = null;
   }
 
   isAccessTokenInvalido() {
@@ -72,6 +91,16 @@ export class AuthService {
 
   temPermissao(permissao: string) {
     return this.jwtPayload && this.jwtPayload.authorities.includes(permissao);
+  }
+
+  temQualquerPermissao(roles) {
+    for (const role of roles) {
+      if (this.temPermissao(role)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private armazenarToken(token: string) {
